@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mTabRadioGroup;//按钮组
     private SparseArray<Fragment> mFragmentSparesArry;//fragment组
     private Fragment currentFragment=new Fragment();
-    /*private IndexFragment index=IndexFragment.newInstance("体检");
+    /*
+    private IndexFragment index=IndexFragment.newInstance("体检");
     private contactFragment contact=contactFragment.newInstance("记录");
     private healthFragment health=healthFragment.newInstance("健康");
     */
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         if(!targetFragment.isAdded())
         {
             //第一次使用switchFragment()时currentFragement为null,
+            //Log.e("Peter","!targetFragment.isAdded()");
             if(currentFragment!=null)
             {
                 transaction.hide(currentFragment);
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+            //Log.e("Peter","else");
             transaction.hide(currentFragment)
                     .show(targetFragment);
         }
@@ -47,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         return transaction;
     }
 
-
-
+    //对android系统有要求
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         //底部导航栏
         mTabRadioGroup=findViewById(R.id.tabs_rg);
 
-
         mFragmentSparesArry=new SparseArray<>();
         mFragmentSparesArry.append(R.id.index_tab,IndexFragment.newInstance("体检"));
         mFragmentSparesArry.append(R.id.record_tab,settingFragment.newInstance("记录"));
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mTabRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                switchFragment(mFragmentSparesArry.get(checkedId)).commit();
@@ -79,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //导航栏默认显示第一个
-        getSupportFragmentManager().beginTransaction().add(fragment_container,mFragmentSparesArry.get(R.id.index_tab)).commit();
+        switchFragment(mFragmentSparesArry.get(R.id.index_tab)).commit();
 
+        //按钮的监听事件
         findViewById(R.id.sign_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,4 +98,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-0
